@@ -1,0 +1,102 @@
+name: Reader edition verification
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Build, tests, local walkthrough, and static checks
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out candidate
+        uses: actions/checkout@v4.2.2
+
+      - name: Check sanitization and distribution boundaries
+        run: python3 scripts/check-reader-sanitization.py
+
+      - name: Scan candidate Git history for secrets
+        run: docker run --rm --user "$(id -u):$(id -g)" -w /repo -v "$GITHUB_WORKSPACE:/repo:ro" zricethezav/gitleaks:v8.24.3 git --log-opts=--all --redact --no-banner
+
+      - name: Set up Python for source scanning
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Semgrep
+        run: python -m pip install --disable-pip-version-check --no-cache-dir semgrep==1.179.0
+
+      - name: Run blocking source scan
+        run: semgrep scan --config p/security-audit --error --metrics=off --include '*.java' --include '*.ts' --include '*.tsx' backend/src/main/java frontend/src
+
+      - name: Set up Java
+        uses: actions/setup-java@v4.7.1
+        with:
+          distribution: temurin
+          java-version: '26'
+          cache: maven
+
+      - name: Verify backend
+        run: ./backend/mvnw -f backend/pom.xml clean verify
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Generate API client
+        working-directory: frontend
+        run: npm run generate:api
+
+      - name: Audit frontend dependencies
+        working-directory: frontend
+        run: npm audit --audit-level=high
+
+      - name: Validate API contract
+        working-directory: frontend
+        run: npm run lint:openapi
+
+      - name: Run frontend tests and coverage
+        working-directory: frontend
+        run: npm run test:coverage
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+      - name: Set up Terraform for reference formatting only
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.16.5
+          terraform_wrapper: false
+
+      - name: Validate reference Terraform without a backend
+        run: |
+          terraform fmt -check -recursive infrastructure/terraform
+          for directory in infrastructure/terraform/bootstrap infrastructure/terraform/modules/platform; do
+            terraform -chdir="$directory" init -backend=false -input=false
+            terraform -chdir="$directory" validate -no-color
+          done
+
+      - name: Smoke test full local walkthrough
+        run: |
+          trap 'docker compose logs --no-color backend postgres localstack || true; docker compose down -v' EXIT
+          docker compose up --build -d
+          for attempt in $(seq 1 90); do
+            if curl --fail --silent http://localhost:8080/v1/health | grep -q 'UP'; then break; fi
+            sleep 2
+          done
+          python3 scripts/local-walkthrough-smoke.py
+          bash .github/scripts/tests/ecs-container-hardening.sh
+          bash .github/scripts/tests/frontend-security-headers.sh

@@ -1,0 +1,7 @@
+ContractForge recommendation
+
+Your contract has a {{recommendationType}} event on {{eventDate}}.
+
+Suggested action: {{action}}.
+
+Review this recommendation in ContractForge.

@@ -1,0 +1,118 @@
+spring:
+  application:
+    name: contractforge-backend
+logging:
+  structured:
+    format:
+      console: logstash
+contractforge:
+  api:
+    upload-rate-limit:
+      maximum-requests: ${CONTRACTFORGE_API_UPLOAD_RATE_LIMIT_MAXIMUM_REQUESTS:5}
+      window: ${CONTRACTFORGE_API_UPLOAD_RATE_LIMIT_WINDOW:PT1M}
+      max-tracked-users: ${CONTRACTFORGE_API_UPLOAD_RATE_LIMIT_MAX_TRACKED_USERS:10000}
+  aws:
+    endpoint: ${CONTRACTFORGE_AWS_ENDPOINT:}
+    public-endpoint: ${CONTRACTFORGE_AWS_PUBLIC_ENDPOINT:}
+  security:
+    cognito:
+      issuer-uri: ${CONTRACTFORGE_COGNITO_ISSUER_URI:}
+      client-id: ${CONTRACTFORGE_COGNITO_CLIENT_ID:}
+      resource-audience: ${CONTRACTFORGE_COGNITO_RESOURCE_AUDIENCE:}
+      user-info-uri: ${CONTRACTFORGE_COGNITO_USERINFO_URI:}
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  upload:
+    max-size-bytes: ${CONTRACTFORGE_UPLOAD_MAX_SIZE_BYTES:26214400}
+    expiry: ${CONTRACTFORGE_UPLOAD_EXPIRY:PT15M}
+    supported-content-types: ${CONTRACTFORGE_UPLOAD_SUPPORTED_CONTENT_TYPES:application/pdf}
+    object-key-prefix: ${CONTRACTFORGE_UPLOAD_OBJECT_KEY_PREFIX:quarantine/incoming/}
+    ingestion:
+      queue:
+        queue-url: ${CONTRACTFORGE_INGESTION_QUEUE_URL:}
+        poll-seconds: ${CONTRACTFORGE_INGESTION_QUEUE_POLL_SECONDS:5}
+        bucket: ${CONTRACTFORGE_S3_QUARANTINE_BUCKET:}
+  storage:
+    s3:
+      bucket: ${CONTRACTFORGE_S3_QUARANTINE_BUCKET:}
+      region: ${AWS_REGION:us-east-1}
+      trusted-object-key-prefix: ${CONTRACTFORGE_S3_TRUSTED_OBJECT_KEY_PREFIX:private/trusted/documents/}
+  processing:
+    stale-attempt-after: ${CONTRACTFORGE_PROCESSING_STALE_ATTEMPT_AFTER:PT1H}
+    queue:
+      queue-url: ${CONTRACTFORGE_PROCESSING_QUEUE_URL:}
+      dlq-url: ${CONTRACTFORGE_PROCESSING_DLQ_URL:}
+      poll-seconds: ${CONTRACTFORGE_PROCESSING_POLL_SECONDS:5}
+  document-deletion:
+    queue:
+      queue-url: ${CONTRACTFORGE_DOCUMENT_DELETION_QUEUE_URL:}
+      poll-seconds: ${CONTRACTFORGE_DOCUMENT_DELETION_POLL_SECONDS:5}
+  account-deletion:
+    identity-fence-duration: ${CONTRACTFORGE_ACCOUNT_DELETION_IDENTITY_FENCE_DURATION:PT70M}
+    upload-write-grace: ${CONTRACTFORGE_ACCOUNT_DELETION_UPLOAD_WRITE_GRACE:PT5M}
+    queue:
+      queue-url: ${CONTRACTFORGE_ACCOUNT_DELETION_QUEUE_URL:}
+      poll-seconds: ${CONTRACTFORGE_ACCOUNT_DELETION_QUEUE_POLL_SECONDS:5}
+      dispatch-batch-size: ${CONTRACTFORGE_ACCOUNT_DELETION_DISPATCH_BATCH_SIZE:20}
+      dispatch-lease: ${CONTRACTFORGE_ACCOUNT_DELETION_DISPATCH_LEASE:PT1M}
+      worker-lease: ${CONTRACTFORGE_ACCOUNT_DELETION_WORKER_LEASE:PT4M}
+      visibility-timeout: ${CONTRACTFORGE_ACCOUNT_DELETION_VISIBILITY_TIMEOUT:PT5M}
+  accounting:
+    pricing:
+      default-currency: ${CONTRACTFORGE_ACCOUNTING_CURRENCY:USD}
+      scale: 4
+      rounding-mode: HALF_UP
+      # Versioned snapshots are local configuration; runtime pricing lookups are not used.
+      textract:
+        - version: aws-textract-detect-document-text-2026-09-01
+          effective-from: 2026-09-01T00:00:00Z
+          region: eu-west-1
+          price-per-page: 0.0015
+          currency: USD
+      bedrock:
+        - version: aws-bedrock-nova-2-lite-2026-09-01
+          effective-from: 2026-09-01T00:00:00Z
+          model: eu.amazon.nova-2-lite-v1:0
+          inference-profile: eu.amazon.nova-2-lite-v1:0
+          input-per-million-tokens: 0.3300
+          output-per-million-tokens: 2.7500
+          currency: USD
+    queue:
+      queue-url: ${CONTRACTFORGE_ACCOUNTING_QUEUE_URL:}
+      dlq-url: ${CONTRACTFORGE_ACCOUNTING_DLQ_URL:}
+      poll-seconds: ${CONTRACTFORGE_ACCOUNTING_POLL_SECONDS:5}
+  monitoring:
+    schedule:
+      enabled: ${CONTRACTFORGE_MONITORING_SCHEDULE_ENABLED:true}
+      cron: ${CONTRACTFORGE_MONITORING_SCHEDULE_CRON:0 0 2 * * *}
+      zone: ${CONTRACTFORGE_MONITORING_SCHEDULE_ZONE:UTC}
+  notification:
+    email:
+      enabled: ${CONTRACTFORGE_NOTIFICATION_EMAIL_ENABLED:false}
+      sender-address: ${CONTRACTFORGE_NOTIFICATION_EMAIL_SENDER:}
+      region: ${CONTRACTFORGE_NOTIFICATION_EMAIL_REGION:${AWS_REGION:us-east-1}}
+    delivery:
+      lease-duration: ${CONTRACTFORGE_NOTIFICATION_LEASE_DURATION:}
+      max-attempts: ${CONTRACTFORGE_NOTIFICATION_MAX_ATTEMPTS:}
+    queue:
+      queue-url: ${CONTRACTFORGE_NOTIFICATION_QUEUE_URL:}
+      dlq-url: ${CONTRACTFORGE_NOTIFICATION_DLQ_URL:}
+      poll-seconds: ${CONTRACTFORGE_NOTIFICATION_POLL_SECONDS:5}
+      recovery-enabled: ${CONTRACTFORGE_NOTIFICATION_RECOVERY_ENABLED:false}
+      recovery-delay-ms: ${CONTRACTFORGE_NOTIFICATION_RECOVERY_DELAY_MS}
+  extraction:
+    max-input-bytes: ${CONTRACTFORGE_EXTRACTION_MAX_INPUT_BYTES:26214400}
+    max-output-characters: ${CONTRACTFORGE_EXTRACTION_MAX_OUTPUT_CHARACTERS:500000}
+    max-llm-input-characters: ${CONTRACTFORGE_EXTRACTION_MAX_LLM_INPUT_CHARACTERS:200000}
+    minimum-direct-text-characters: ${CONTRACTFORGE_EXTRACTION_MINIMUM_DIRECT_TEXT_CHARACTERS:20}
+    max-pages: ${CONTRACTFORGE_EXTRACTION_MAX_PAGES:100}
+    textract:
+      region: ${CONTRACTFORGE_TEXTRACT_REGION}
+    bedrock:
+      region: ${CONTRACTFORGE_BEDROCK_REGION}
+      model-id: ${CONTRACTFORGE_BEDROCK_MODEL_ID:eu.amazon.nova-2-lite-v1:0}
+      service: ${CONTRACTFORGE_BEDROCK_MODEL_ID:eu.amazon.nova-2-lite-v1:0}
+      currency: ${CONTRACTFORGE_BEDROCK_CURRENCY:EUR}
+      max-output-tokens: ${CONTRACTFORGE_BEDROCK_MAX_OUTPUT_TOKENS:4096}
+      timeout: ${CONTRACTFORGE_BEDROCK_TIMEOUT:PT30S}

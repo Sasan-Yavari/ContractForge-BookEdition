@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "parties", "electricity_data"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1"},
+    "parties": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["role", "name"], "properties": {"role": {"type": "string", "enum": ["CUSTOMER", "PROVIDER", "BROKER"]}, "name": {"type": "string"}}}},
+    "start_date": {"type": ["string", "null"]},
+    "end_date": {"type": ["string", "null"]},
+    "duration_months": {"type": ["integer", "null"]},
+    "renewal_type": {"type": ["string", "null"], "enum": ["FIXED_TERM", "AUTO_RENEW", "OPEN_ENDED", null]},
+    "pricing_model": {"type": ["string", "null"], "enum": ["FIXED", "VARIABLE", "DYNAMIC", null]},
+    "electricity_data": {"type": "object", "additionalProperties": false, "properties": {
+      "consumption": {"type": "object", "additionalProperties": false, "properties": {"annual_kwh": {"type": "number"}}},
+      "pricing": {"type": "object", "additionalProperties": false, "properties": {"model": {"type": "string", "enum": ["FIXED", "VARIABLE", "DYNAMIC"]}, "rates": {"type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"value": {"type": "number"}, "unit": {"type": "string"}, "currency": {"type": "string"}, "period": {"type": "string"}, "time_period": {"type": "string"}, "index": {"type": "string"}}}}}},
+      "fixed_charges": {"type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"type": {"type": "string", "enum": ["SUPPLY"]}, "amount": {"type": "number"}, "currency": {"type": "string"}, "period": {"type": "string"}}}},
+      "return_delivery": {"type": "object", "additionalProperties": false, "properties": {"compensation": {"type": ["number", "string", "null"]}, "fees": {"type": ["number", "string", "null"]}}},
+      "discounts": {"type": "array", "items": {"type": "object", "additionalProperties": false, "properties": {"type": {"type": "string", "enum": ["WELCOME", "LOYALTY", "PROMOTIONAL", "OTHER"]}, "amount": {"type": "number"}, "value": {"type": "number"}, "currency": {"type": "string"}, "period": {"type": "string"}}}}
+    }}
+  }
+}

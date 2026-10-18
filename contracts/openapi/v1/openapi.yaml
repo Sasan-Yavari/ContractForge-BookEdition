@@ -1,0 +1,659 @@
+openapi: 3.1.0
+info:
+  title: ContractForge API
+  version: 1.0.0
+  description: Version 1 ContractForge API contract.
+paths:
+  /v1/health:
+    get:
+      operationId: getHealth
+      summary: Check backend health
+      responses:
+        '200':
+          description: Backend is healthy.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /v1/account:
+    delete:
+      operationId: deleteAccount
+      summary: Request permanent deletion of the authenticated account
+      description: >-
+        Immediately fences application access and persists recoverable deletion work. A 202 response means Cognito
+        disable has also been confirmed and cleanup has started; it does not mean account data and private objects are
+        already fully removed.
+      security:
+        - cognito: []
+      responses:
+        '202':
+          description: The request is durable, Cognito disable is confirmed, and cleanup has started.
+        '401':
+          description: Authentication is required.
+        '403':
+          description: The identity has no active deletable application account.
+        '503':
+          description: >-
+            Account-deletion infrastructure is unavailable, or Cognito disable is not yet confirmed. A durable job may
+            already exist after this response; repeating the request is idempotent. Retry-After is present while Cognito
+            disable is pending.
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying when immediate Cognito disable is pending.
+              schema:
+                type: integer
+                minimum: 1
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDeletionError'
+  /v1/events:
+    get:
+      operationId: listEvents
+      summary: List the authenticated owner's monitoring events
+      security:
+        - cognito: []
+      responses:
+        '200':
+          description: The owner's persisted monitoring events in deterministic order.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventResponse'
+  /v1/recommendations:
+    get:
+      operationId: listRecommendations
+      summary: List the authenticated owner's recommendations
+      security:
+        - cognito: []
+      parameters:
+        - name: includeHistory
+          in: query
+          required: false
+          description: Include expired/history records when true. Defaults to current actionable records only.
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: The owner's persisted structured recommendations in deterministic order.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecommendationResponse'
+  /v1/contracts:
+    get:
+      operationId: listContracts
+      summary: List the authenticated owner's complete contract collection
+      description: >-
+        Includes active upload attempts and owned documents in processing, failed, reviewable, or confirmed states.
+        Confirmed contract details are returned only after user approval. Completed upload attempts whose document
+        was deleted are omitted. Results are ordered by lifecycle priority, then most recently added first.
+      security:
+        - cognito: []
+      responses:
+        '200':
+          description: The authenticated owner's contract collection; an empty collection is an empty array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContractCollectionItem'
+  /v1/contracts/{documentId}/overview:
+    get:
+      operationId: getContractOverview
+      summary: Get current information and history for an owned confirmed contract
+      description: >-
+        Returns current recommendations as Needs attention and active events without a current matching recommendation
+        as Things to know. A matched event is represented once. History combines inactive events and expired
+        recommendations by their persisted event reference and is ordered newest first. Owner-wide event and
+        recommendation endpoints remain available and unchanged.
+      security:
+        - cognito: []
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: Current information and contract-specific history.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractOverviewResponse'
+        '404':
+          description: Contract is not accessible or is not confirmed.
+  /v1/uploads:
+    post:
+      operationId: startUpload
+      summary: Prepare a direct upload
+      security:
+        - cognito: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartUploadRequest'
+      responses:
+        '200':
+          description: Direct upload target prepared.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StartUploadResponse'
+        '400':
+          description: Invalid upload metadata.
+        '429':
+          description: The authenticated owner's upload initiation limit is exceeded.
+          headers:
+            Retry-After:
+              description: Delay in seconds before an upload initiation should be retried.
+              required: true
+              schema:
+                type: string
+                pattern: '^[1-9][0-9]*$'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadRateLimitError'
+        '503':
+          description: The bounded upload initiation tracker cannot currently admit another identity.
+          headers:
+            Retry-After:
+              description: Delay in seconds before another upload initiation should be attempted.
+              required: true
+              schema:
+                type: string
+                pattern: '^[1-9][0-9]*$'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadRateLimitCapacityError'
+  /v1/documents/{documentId}:
+    get:
+      operationId: getDocumentProcessingStatus
+      summary: Get the authenticated owner's document-processing status
+      security:
+        - cognito: []
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: Authoritative document-processing status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentProcessingStatusResponse'
+        '404':
+          description: Document is not accessible.
+    delete:
+      operationId: deleteDocument
+      summary: Delete the authenticated owner's document
+      security:
+        - cognito: []
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '204':
+          description: Document and dependent business data deleted; object cleanup is asynchronous.
+        '404':
+          description: Document is not accessible.
+  /v1/documents/{documentId}/original:
+    get:
+      operationId: getOriginalDocumentAccess
+      summary: Get a short-lived owner-authorized PDF read URL
+      description: >-
+        Requires the authenticated owner. Returns a five-minute URL for inline browser PDF access only after the
+        stored object is confirmed available. The URL is a bearer capability and must be treated as sensitive.
+      security:
+        - cognito: []
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: Short-lived browser read target for the original PDF.
+          headers:
+            Cache-Control:
+              description: Prevents caching the bearer URL response.
+              schema:
+                type: string
+                const: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OriginalDocumentAccessResponse'
+        '404':
+          description: Document or source object is not accessible.
+        '503':
+          description: Source storage is temporarily unavailable.
+  /v1/uploads/{id}:
+    get:
+      operationId: getUploadStatus
+      summary: Get upload status
+      security:
+        - cognito: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Upload status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadStatusResponse'
+        '404':
+          description: Upload not found.
+  /v1/contracts/{documentId}:
+    get:
+      operationId: getContractReview
+      summary: Get the owner's reviewable contract
+      security:
+        - cognito: []
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      responses:
+        '200':
+          description: Contract review state.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractReviewResponse'
+        '404':
+          description: Contract is not accessible or not reviewable.
+    put:
+      operationId: editContract
+      summary: Replace supported fields in a draft or confirmed contract
+      security:
+        - cognito: []
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditContractRequest'
+      responses:
+        '200':
+          description: Updated authoritative contract; confirmed contracts remain active.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractReviewResponse'
+        '400':
+          description: Invalid supported contract fields.
+        '404':
+          description: Contract is not accessible or is archived.
+        '409':
+          description: Expected version is stale.
+    patch:
+      operationId: approveContractDraft
+      summary: Transition a draft contract to active
+      security:
+        - cognito: []
+      parameters:
+        - $ref: '#/components/parameters/DocumentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApproveContractDraftRequest'
+      responses:
+        '200':
+          description: Approved active contract.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractReviewResponse'
+        '404':
+          description: Contract is not accessible or is no longer a draft.
+        '409':
+          description: Expected version is stale.
+components:
+  parameters:
+    DocumentId:
+      name: documentId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    cognito:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    AccountDeletionError:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: string
+          enum: [ACCOUNT_DELETION_UNAVAILABLE, ACCOUNT_DELETION_DISABLE_PENDING]
+    UploadRateLimitError:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: string
+          const: UPLOAD_RATE_LIMIT_EXCEEDED
+    UploadRateLimitCapacityError:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: string
+          const: UPLOAD_INITIATION_TEMPORARILY_UNAVAILABLE
+    HealthResponse:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - UP
+    EventResponse:
+      type: object
+      additionalProperties: false
+      required: [id, documentId, type, description, eventDate, status, createdAt]
+      properties:
+        id: {type: string, format: uuid}
+        documentId: {type: string, format: uuid}
+        type:
+          type: string
+          enum: [PAYMENT_DUE, CONTRACT_EXPIRING, CONTRACT_RENEWING, CANCELLATION_DEADLINE, PRICE_CHANGE, WARRANTY_EXPIRING, REQUIREMENT, OTHER]
+        description: {type: string}
+        eventDate: {type: string, format: date-time}
+        amount: {type: number, nullable: true}
+        currency: {type: string, nullable: true, minLength: 3, maxLength: 3}
+        status:
+          type: string
+          enum: [ACTIVE, COMPLETED, DISMISSED, CANCELLED]
+        createdAt: {type: string, format: date-time}
+    RecommendationResponse:
+      type: object
+      additionalProperties: false
+      required: [id, documentId, type, data, createdAt]
+      properties:
+        id: {type: string, format: uuid}
+        documentId: {type: string, format: uuid}
+        type:
+          type: string
+          enum: [PRICE_OPPORTUNITY, CONTRACT_EXPIRY, RENEWAL, TERMS_CHANGE, DISCOUNT_EXPIRY, ACTION_REQUIRED]
+        data:
+          $ref: '#/components/schemas/RecommendationData'
+        createdAt: {type: string, format: date-time}
+        expiresAt: {type: string, format: date-time, nullable: true}
+    RecommendationData:
+      type: object
+      additionalProperties: false
+      required: [reason, evidence, impact, action]
+      properties:
+        reason:
+          $ref: '#/components/schemas/RecommendationReason'
+        evidence:
+          $ref: '#/components/schemas/RecommendationEvidence'
+        impact:
+          $ref: '#/components/schemas/RecommendationImpact'
+        action:
+          $ref: '#/components/schemas/RecommendationAction'
+    RecommendationReason:
+      type: object
+      additionalProperties: false
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [CONTRACT_EXPIRY, RENEWAL]
+    RecommendationEvidence:
+      type: object
+      additionalProperties: false
+      required: [event_type, event_date]
+      properties:
+        event_type:
+          type: string
+          enum: [CONTRACT_EXPIRING, CONTRACT_RENEWING]
+        event_date: {type: string, format: date-time}
+    RecommendationImpact:
+      type: object
+      additionalProperties: false
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [ANNUAL_COST, ANNUAL_SAVING, PRICE_CHANGE, NONE]
+    RecommendationAction:
+      type: object
+      additionalProperties: false
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [REVIEW, COMPARE, RENEW, CANCEL, CONTACT_PROVIDER, TAKE_NO_ACTION]
+    ContractCollectionItem:
+      type: object
+      additionalProperties: false
+      required: [id, contractType, status, sourceFilename, createdAt, provider, pricingModel, endDate]
+      properties:
+        id: {type: string, format: uuid}
+        contractType:
+          type: string
+          enum: [ELECTRICITY]
+        status:
+          type: string
+          description: User-level collection state, independent of upload or persistence implementation statuses.
+          enum: [NEEDS_REVIEW, COULD_NOT_PROCESS, NEEDS_ATTENTION, CONFIRMED, PROCESSING]
+        sourceFilename:
+          type: string
+          nullable: true
+          description: Present before confirmation; not part of confirmed contract identity.
+        createdAt: {type: string, format: date-time}
+        provider:
+          type: string
+          nullable: true
+          description: Trusted provider name, present only after explicit user confirmation.
+        pricingModel:
+          type: string
+          enum: [FIXED, VARIABLE, DYNAMIC]
+          nullable: true
+          description: Trusted pricing model, present only after explicit user confirmation.
+        endDate:
+          type: string
+          format: date
+          nullable: true
+          description: Trusted end date, present only after explicit user confirmation.
+    ContractOverviewResponse:
+      type: object
+      additionalProperties: false
+      required: [documentId, thingsToKnow, needsAttention, history]
+      properties:
+        documentId: {type: string, format: uuid}
+        thingsToKnow:
+          type: array
+          description: Active events that have no current recommendation representing the same event.
+          items: {$ref: '#/components/schemas/EventResponse'}
+        needsAttention:
+          type: array
+          description: Current, unexpired recommendations for this contract.
+          items: {$ref: '#/components/schemas/RecommendationResponse'}
+        history:
+          type: array
+          description: Older or no-longer-current contract information, newest first.
+          items: {$ref: '#/components/schemas/ContractHistoryItem'}
+    ContractHistoryItem:
+      type: object
+      additionalProperties: false
+      required: [id, occurredAt, event, recommendation]
+      properties:
+        id: {type: string, format: uuid}
+        occurredAt: {type: string, format: date-time}
+        event:
+          allOf: [{$ref: '#/components/schemas/EventResponse'}]
+          nullable: true
+          description: Present when the history entry includes a persisted Event.
+        recommendation:
+          allOf: [{$ref: '#/components/schemas/RecommendationResponse'}]
+          nullable: true
+          description: Present when the history entry includes a persisted Recommendation.
+    StartUploadRequest:
+      type: object
+      additionalProperties: false
+      required: [filename, contentType, size, contractType]
+      properties:
+        filename:
+          type: string
+          minLength: 1
+          maxLength: 255
+        contentType:
+          type: string
+          minLength: 1
+        size:
+          type: integer
+          format: int64
+          minimum: 1
+        contractType:
+          type: string
+          enum: [ELECTRICITY]
+    UploadTarget:
+      type: object
+      required: [method, url, headers, expiresAt]
+      properties:
+        method:
+          type: string
+          enum: [PUT]
+        url:
+          type: string
+          format: uri
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        expiresAt:
+          type: string
+          format: date-time
+    StartUploadResponse:
+      type: object
+      required: [uploadId, status, contractType, originalFilename, expiresAt, upload]
+      properties:
+        uploadId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [UPLOADING]
+        contractType:
+          type: string
+          enum: [ELECTRICITY]
+        originalFilename:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        upload:
+          $ref: '#/components/schemas/UploadTarget'
+    UploadStatusResponse:
+      type: object
+      required: [uploadId, status, contractType, originalFilename, expiresAt]
+      properties:
+        uploadId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [UPLOADING, UPLOADED, SCANNED, PROMOTED, COMPLETED, REJECTED, EXPIRED]
+        contractType:
+          type: string
+          enum: [ELECTRICITY]
+        originalFilename:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+    DocumentProcessingStatusResponse:
+      type: object
+      additionalProperties: false
+      required: [documentId, status, contractType, originalFilename, failureCategory]
+      properties:
+        documentId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [PROCESSING, SUCCESS, FAILED]
+        contractType:
+          type: string
+          enum: [ELECTRICITY]
+        originalFilename:
+          type: string
+        failureCategory:
+          type: string
+          enum: [RETRYABLE, DETERMINISTIC_DOCUMENT, UNKNOWN]
+          nullable: true
+    OriginalDocumentAccessResponse:
+      type: object
+      additionalProperties: false
+      required: [url, expiresAt]
+      properties:
+        url: {type: string, format: uri}
+        expiresAt: {type: string, format: date-time}
+    ContractReviewResponse:
+      type: object
+      required: [documentId, type, status, version, parties, terms]
+      properties:
+        documentId: {type: string, format: uuid}
+        type: {type: string, enum: [ELECTRICITY]}
+        status: {type: string, enum: [DRAFT, ACTIVE]}
+        version: {type: integer, format: int64, minimum: 0}
+        parties:
+          type: array
+          minItems: 1
+          items: {$ref: '#/components/schemas/ContractParty'}
+        terms: {$ref: '#/components/schemas/ContractTerms'}
+    ContractParty:
+      type: object
+      required: [role, name]
+      properties:
+        role: {type: string, enum: [CUSTOMER, PROVIDER, BROKER]}
+        name: {type: string, minLength: 1, maxLength: 500}
+    ContractTerms:
+      type: object
+      required: [electricityData]
+      properties:
+        startDate: {type: string, format: date}
+        endDate: {type: string, format: date}
+        durationMonths: {type: integer, minimum: 1}
+        renewalType: {type: string, enum: [FIXED_TERM, AUTO_RENEW, OPEN_ENDED]}
+        pricingModel: {type: string, enum: [FIXED, VARIABLE, DYNAMIC]}
+        electricityData: {type: object, additionalProperties: true}
+    EditContractRequest:
+      type: object
+      additionalProperties: false
+      required: [expectedVersion, parties, terms]
+      properties:
+        expectedVersion: {type: integer, format: int64, minimum: 0}
+        parties:
+          type: array
+          minItems: 1
+          items: {$ref: '#/components/schemas/ContractParty'}
+        terms: {$ref: '#/components/schemas/ContractTerms'}
+    ApproveContractDraftRequest:
+      type: object
+      additionalProperties: false
+      required: [expectedVersion]
+      properties:
+        expectedVersion: {type: integer, format: int64, minimum: 0}

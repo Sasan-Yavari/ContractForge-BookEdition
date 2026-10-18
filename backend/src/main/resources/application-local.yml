@@ -1,0 +1,55 @@
+spring:
+  datasource:
+    url: ${CONTRACTFORGE_DB_URL:jdbc:postgresql://postgres:5432/contractforge}
+    username: ${CONTRACTFORGE_DB_USERNAME:contractforge}
+    password: ${CONTRACTFORGE_DB_PASSWORD:contractforge}
+contractforge:
+  local:
+    auth-enabled: ${CONTRACTFORGE_LOCAL_AUTH_ENABLED:false}
+  aws:
+    endpoint: ${CONTRACTFORGE_AWS_ENDPOINT:}
+    public-endpoint: ${CONTRACTFORGE_AWS_PUBLIC_ENDPOINT:}
+  storage:
+    s3:
+      bucket: ${CONTRACTFORGE_S3_QUARANTINE_BUCKET:contractforge-local}
+      region: ${AWS_REGION:us-east-1}
+      trusted-object-key-prefix: private/trusted/documents/
+  processing:
+    queue:
+      queue-url: ${CONTRACTFORGE_PROCESSING_QUEUE_URL:}
+      dlq-url: ${CONTRACTFORGE_PROCESSING_DLQ_URL:}
+      poll-seconds: 2
+  document-deletion:
+    queue:
+      queue-url: ${CONTRACTFORGE_DOCUMENT_DELETION_QUEUE_URL:}
+      poll-seconds: 2
+  account-deletion:
+    queue:
+      queue-url: ${CONTRACTFORGE_ACCOUNT_DELETION_QUEUE_URL:}
+      poll-seconds: 2
+  accounting:
+    queue:
+      queue-url: ${CONTRACTFORGE_ACCOUNTING_QUEUE_URL:}
+      dlq-url: ${CONTRACTFORGE_ACCOUNTING_DLQ_URL:}
+      poll-seconds: 2
+  monitoring:
+    schedule:
+      enabled: false
+  notification:
+    email:
+      enabled: false
+    queue:
+      queue-url: ${CONTRACTFORGE_NOTIFICATION_QUEUE_URL:}
+      dlq-url: ${CONTRACTFORGE_NOTIFICATION_DLQ_URL:}
+      poll-seconds: 2
+      recovery-enabled: false
+  extraction:
+    max-output-characters: 500000
+    max-llm-input-characters: 200000
+    minimum-direct-text-characters: 20
+    # The local profile never calls AWS extraction providers. These values
+    # satisfy shared provider configuration without requiring cloud settings.
+    textract:
+      region: us-east-1
+    bedrock:
+      region: us-east-1

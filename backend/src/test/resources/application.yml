@@ -1,0 +1,32 @@
+spring:
+  flyway:
+    enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration
+contractforge:
+  api:
+    upload-rate-limit:
+      maximum-requests: 5
+      window: PT1M
+      max-tracked-users: 10000
+  upload:
+    max-size-bytes: 1048576
+    expiry: PT15M
+    supported-content-types:
+      - application/pdf
+    object-key-prefix: quarantine/incoming/
+  storage:
+    s3:
+      bucket: test-quarantine-bucket
+      region: eu-west-1
+  account-deletion:
+    identity-fence-duration: PT70M
+    upload-write-grace: PT5M
+    queue:
+      queue-url: ""
+      poll-seconds: 5
+      dispatch-batch-size: 20
+      dispatch-lease: PT1M
+      worker-lease: PT4M
+      visibility-timeout: PT5M
