@@ -1,0 +1,109 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: contractforge
+      POSTGRES_USER: contractforge
+      POSTGRES_PASSWORD: contractforge
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U contractforge -d contractforge"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - contractforge-postgres:/var/lib/postgresql/data
+
+  localstack:
+    image: localstack/localstack:4.8@sha256:8c9756bddc44625cd6e890f5e4bcc29b045eebe108b268482b848f4f832ec153
+    environment:
+      SERVICES: s3,sqs,ses
+      AWS_DEFAULT_REGION: us-east-1
+      DEBUG: "0"
+    ports:
+      - "127.0.0.1:4566:4566"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:4566/_localstack/health >/dev/null"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  aws-init:
+    image: amazon/aws-cli:2.27.41
+    depends_on:
+      localstack:
+        condition: service_healthy
+    environment:
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+      AWS_DEFAULT_REGION: us-east-1
+    entrypoint: ["/bin/sh", "/init.sh"]
+    volumes:
+      - ./scripts/localstack-init.sh:/init.sh:ro
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    user: "10001:10001"
+    read_only: true
+    volumes:
+      - backend-container-tmp:/tmp
+    depends_on:
+      postgres:
+        condition: service_healthy
+      aws-init:
+        condition: service_completed_successfully
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      CONTRACTFORGE_LOCAL_AUTH_ENABLED: "true"
+      CONTRACTFORGE_DB_URL: jdbc:postgresql://postgres:5432/contractforge
+      CONTRACTFORGE_DB_USERNAME: contractforge
+      CONTRACTFORGE_DB_PASSWORD: contractforge
+      CONTRACTFORGE_AWS_ENDPOINT: http://localstack:4566
+      CONTRACTFORGE_AWS_PUBLIC_ENDPOINT: http://localhost:4566
+      CONTRACTFORGE_S3_QUARANTINE_BUCKET: contractforge-local
+      CONTRACTFORGE_PROCESSING_QUEUE_URL: http://localstack:4566/000000000000/contractforge-local-processing
+      CONTRACTFORGE_PROCESSING_DLQ_URL: http://localstack:4566/000000000000/contractforge-local-processing-dlq
+      CONTRACTFORGE_DOCUMENT_DELETION_QUEUE_URL: http://localstack:4566/000000000000/contractforge-local-document-deletion
+      CONTRACTFORGE_ACCOUNT_DELETION_QUEUE_URL: http://localstack:4566/000000000000/contractforge-local-account-deletion
+      CONTRACTFORGE_ACCOUNTING_QUEUE_URL: http://localstack:4566/000000000000/contractforge-local-accounting
+      CONTRACTFORGE_ACCOUNTING_DLQ_URL: http://localstack:4566/000000000000/contractforge-local-accounting-dlq
+      CONTRACTFORGE_NOTIFICATION_QUEUE_URL: http://localstack:4566/000000000000/contractforge-local-notification
+      CONTRACTFORGE_NOTIFICATION_DLQ_URL: http://localstack:4566/000000000000/contractforge-local-notification-dlq
+      AWS_ACCESS_KEY_ID: local
+      AWS_SECRET_ACCESS_KEY: local
+      AWS_REGION: us-east-1
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/v1/health | grep -q UP"]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    user: "101:101"
+    read_only: true
+    volumes:
+      - frontend-container-tmp:/tmp
+    environment:
+      CONTRACTFORGE_RUNTIME_ENV: local
+      CONTRACTFORGE_AUTH_MODE: local
+      CONTRACTFORGE_LOCAL_AUTH_TOKEN: local-owner
+      CONTRACTFORGE_S3_UPLOAD_ORIGIN: http://localhost:4566
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:8080/ || exit 1"]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+
+volumes:
+  contractforge-postgres:
+  backend-container-tmp:
+  frontend-container-tmp:

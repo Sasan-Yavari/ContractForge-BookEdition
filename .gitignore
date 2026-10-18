@@ -1,0 +1,41 @@
+# IntelliJ IDEA project metadata
+.idea/
+
+# Maven build output
+**/target/
+
+# Terraform state, provider cache, plans and real environment input
+infrastructure/terraform/**/.terraform/
+infrastructure/terraform/**/*.tfstate
+infrastructure/terraform/**/*.tfstate.*
+infrastructure/terraform/**/*.tfplan
+infrastructure/terraform/**/terraform.tfvars
+infrastructure/terraform/**/terraform.tfvars.json
+
+# Compiled Java output
+*.class
+
+# Node.js dependencies and frontend build output
+**/node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/src/api/generated/
+
+# macOS Finder metadata
+.DS_Store
+
+# Graphify output
+graphify-out/
+
+# Local secrets and generated test artifacts
+.env
+.env.*
+!.env.example
+*.log
+*.pem
+*.key
+*.tfplan
+
+# Python and generated client artifacts
+__pycache__/
+*.py[cod]

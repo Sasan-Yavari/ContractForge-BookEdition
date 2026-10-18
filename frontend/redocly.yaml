@@ -1,0 +1,6 @@
+extends: []
+rules:
+  no-unresolved-refs: error
+  operation-operationId: error
+  operation-operationId-unique: error
+  path-parameters-defined: error

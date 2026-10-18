@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: ${CONTRACTFORGE_DB_URL}
+    driver-class-name: software.amazon.jdbc.Driver
+    hikari:
+      connection-timeout: 150000
+      data-source-properties:
+        wrapperPlugins: awsSecretsManager
+        secretsManagerSecretId: ${CONTRACTFORGE_DB_SECRET_ARN}
+        secretsManagerRegion: ${AWS_REGION}
+        secretsManagerConnectRetryTimeoutMs: 120000
+        secretsManagerConnectRetryIntervalMs: 1000

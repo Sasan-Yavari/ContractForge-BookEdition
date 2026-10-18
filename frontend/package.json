@@ -1,0 +1,38 @@
+{
+  "name": "contractforge-frontend",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b && vite build",
+    "dev": "vite",
+    "generate:api": "node node_modules/openapi-typescript-codegen/bin/index.js --input ../contracts/openapi/v1/openapi.yaml --output src/api/generated --client fetch",
+    "lint": "npm run lint:openapi",
+    "lint:openapi": "redocly lint ../contracts/openapi/v1/openapi.yaml --config redocly.yaml",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.12",
+    "oidc-client-ts": "3.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@redocly/cli": "2.51.2",
+    "@testing-library/react": "^16.1.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^5.0.3",
+    "jsdom": "^25.0.1",
+    "openapi-typescript-codegen": "0.31.0",
+    "typescript": "~5.7.3",
+    "vite": "^6.1.0",
+    "vitest": "^5.0.3"
+  }
+}
