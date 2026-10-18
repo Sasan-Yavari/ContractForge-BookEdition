@@ -16,4 +16,4 @@ This file records only the decisions needed to understand and run this reader ed
 
 ## Distribution boundary
 
-The edition uses the existing MIT license from the public destination repository for material the copyright holder is authorized to license. The owner must still approve publication of this exact file set; third-party dependency, image, and LocalStack terms remain separate. See [the distribution notice](../../DISTRIBUTION-NOTICE.md) and [dependency notices](../DEPENDENCY-NOTICES.md). Private staging and local review do not authorize public distribution.
+The edition retains the existing MIT license from the public destination repository for material the copyright holder is authorized to license. Third-party dependency and image terms remain separate; LocalStack 4.8 version-specific terms and maintenance limits are documented in the distribution notices. This license does not certify production cloud behavior. See [the distribution notice](../../DISTRIBUTION-NOTICE.md) and [dependency notices](../DEPENDENCY-NOTICES.md).
