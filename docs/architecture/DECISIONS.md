@@ -4,7 +4,7 @@ This file records only the decisions needed to understand and run this reader ed
 
 ## Authority
 
-- The selected application snapshot is `78ac27aeb579f47d6b2abd177a80f3ff08f08ddd`, recorded in the extraction manifest. This repository starts with a new root commit and contains no source history or tags.
+- The selected application snapshot is revision `78ac27aeb579f47d6b2abd177a80f3ff08f08ddd`. This repository starts with a new root commit and contains no source history or tags.
 - Application behavior is described by the code and its tests. This file records edition-level choices; it does not override executable behavior or the API contract.
 - The default reader path is local Docker Compose. Terraform is an optional, reference-only example and is not run by startup or CI.
 
