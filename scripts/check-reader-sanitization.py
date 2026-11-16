@@ -5,6 +5,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SAFE_LOCAL_ACCOUNT = "000000000000"
+PUBLIC_READER_ISSUES = frozenset({
+    "https://github.com/Sasan-Yavari/ContractForge-BookEdition/issues/2",
+    "https://github.com/Sasan-Yavari/ContractForge-BookEdition/issues/4",
+})
 GENERATED_PARTS = {".git", ".terraform", "target", "node_modules", "dist", "coverage"}
 FORBIDDEN_PATH_PARTS = (
     "docs/history/",
@@ -70,6 +74,10 @@ def main():
         except (UnicodeDecodeError, OSError):
             continue
         for category, pattern in FORBIDDEN_TEXT.items():
+            if category == "private-tracking-link":
+                if any(match.group(0) not in PUBLIC_READER_ISSUES for match in pattern.finditer(text)):
+                    findings.append((relative, category))
+                continue
             if category == "private-tracker-number":
                 if relative == "docs/EXTRACTION-MANIFEST.md" or path.suffix != ".md":
                     continue

@@ -1,0 +1,1325 @@
+{
+  "edition": "English manuscript v1.0",
+  "title": "AI Writes Code. You Build the Product.",
+  "subtitle": "A Practical Guide to AI-Assisted Software Development, from Idea to Operation",
+  "author": "Sasan Yavari",
+  "base_url": "https://sasan-yavari.github.io/ContractForge-BookEdition/",
+  "companion_tag": "book-example-v1",
+  "chapters": [
+    {
+      "number": 1,
+      "title": "You Lead. AI Helps Build.",
+      "path": "1/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/AGENTS.md",
+          "label": "project instructions",
+          "kind": "companion example"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 2,
+          "label": "Public companion and private historical evidence",
+          "links": [
+            {
+              "label": "Public source",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition"
+            },
+            {
+              "label": "project instructions",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/AGENTS.md"
+            }
+          ],
+          "note": "The public example does not expose or independently establish the private historical evidence."
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Choose Your Tools and Set Your Budget",
+      "path": "2/",
+      "resources": [],
+      "sources": [
+        {
+          "number": 1,
+          "label": "ContractForge reader edition",
+          "links": [
+            {
+              "label": "ContractForge reader edition",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition"
+            },
+            {
+              "label": "README.md",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/README.md"
+            },
+            {
+              "label": "ci.yml",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/.github/workflows/ci.yml"
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "label": "OpenAI, “Build skills”",
+          "links": [
+            {
+              "label": "Build skills",
+              "url": "https://developers.openai.com/codex/build-skills"
+            }
+          ],
+          "accessed": "26 October 2026"
+        },
+        {
+          "number": 3,
+          "label": "Model Context Protocol specification, “Tools”",
+          "links": [
+            {
+              "label": "Tools",
+              "url": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools"
+            }
+          ],
+          "accessed": "26 October 2026"
+        },
+        {
+          "number": 4,
+          "label": "GitHub, “Setting up budgets to control spending on metered products”",
+          "links": [
+            {
+              "label": "Setting up budgets to control spending on metered products",
+              "url": "https://docs.github.com/en/billing/how-tos/set-up-budgets"
+            },
+            {
+              "label": "Managing your costs with AWS Budgets",
+              "url": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html"
+            }
+          ],
+          "accessed": "26 October 2026"
+        },
+        {
+          "number": 5,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 6,
+          "label": "The Fate of the Furious (2017), opening race scene in Havana",
+          "links": [],
+          "note": "Bibliographic locator only; no film material is redistributed."
+        },
+        {
+          "number": 7,
+          "label": "Author-reported experience",
+          "links": [],
+          "note": "No public evidence link is supplied for this source."
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Prepare Your Workspace for AI",
+      "path": "3/",
+      "resources": [
+        {
+          "label": "Practice-note checker",
+          "url": "https://sasan-yavari.github.io/ContractForge-BookEdition/examples/3/check_practice_note.py",
+          "kind": "teaching example",
+          "example_path": "examples/3/check_practice_note.py",
+          "note": "For the disposable practice workspace in Chapter 3. It checks exact lines, not product access controls."
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "GitHub, “Quickstart for repositories”",
+          "links": [
+            {
+              "label": "Quickstart for repositories",
+              "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories"
+            }
+          ],
+          "accessed": "27 October 2026"
+        },
+        {
+          "number": 2,
+          "label": "OpenAI, “Codex CLI”",
+          "links": [
+            {
+              "label": "Codex CLI",
+              "url": "https://developers.openai.com/codex/cli"
+            },
+            {
+              "label": "Custom instructions with AGENTS.md",
+              "url": "https://developers.openai.com/codex/agent-configuration/agents-md"
+            }
+          ],
+          "accessed": "27 October 2026"
+        },
+        {
+          "number": 3,
+          "label": "GitHub, “Creating an issue”",
+          "links": [
+            {
+              "label": "Creating an issue",
+              "url": "https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/creating-an-issue"
+            }
+          ],
+          "accessed": "27 October 2026"
+        },
+        {
+          "number": 4,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 5,
+          "label": "Agent Skills, “Specification”",
+          "links": [
+            {
+              "label": "Specification",
+              "url": "https://agentskills.io/specification"
+            },
+            {
+              "label": "Build skills",
+              "url": "https://developers.openai.com/codex/build-skills"
+            }
+          ],
+          "accessed": "27 October 2026"
+        },
+        {
+          "number": 6,
+          "label": "ContractForge reader edition",
+          "links": [
+            {
+              "label": "ContractForge reader edition",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition"
+            },
+            {
+              "label": "ci.yml",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/.github/workflows/ci.yml"
+            }
+          ]
+        },
+        {
+          "number": 7,
+          "label": "GitHub, “Caching your GitHub credentials in Git”",
+          "links": [
+            {
+              "label": "Caching your GitHub credentials in Git",
+              "url": "https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git"
+            }
+          ],
+          "accessed": "27 October 2026"
+        },
+        {
+          "number": 8,
+          "label": "OpenAI, “Sandboxing”",
+          "links": [
+            {
+              "label": "Sandboxing",
+              "url": "https://learn.chatgpt.com/docs/sandboxing"
+            }
+          ],
+          "accessed": "27 October 2026"
+        },
+        {
+          "number": 9,
+          "label": "GitHub CLI, “gh issue view”",
+          "links": [
+            {
+              "label": "gh issue view",
+              "url": "https://cli.github.com/manual/gh_issue_view"
+            }
+          ],
+          "accessed": "27 October 2026"
+        },
+        {
+          "number": 10,
+          "label": "GitHub, “Permissions required for fine-grained personal access tokens”",
+          "links": [
+            {
+              "label": "Permissions required for fine-grained personal access tokens",
+              "url": "https://docs.github.com/en/rest/authentication/permissions-required-for-fine-grained-personal-access-tokens"
+            }
+          ],
+          "accessed": "27 October 2026"
+        },
+        {
+          "number": 11,
+          "label": "OpenAI, “Connecting GitHub to ChatGPT”",
+          "links": [
+            {
+              "label": "Connecting GitHub to ChatGPT",
+              "url": "https://help.openai.com/en/articles/11145903-connecting-github-to-chatgpt"
+            }
+          ],
+          "accessed": "28 October 2026"
+        },
+        {
+          "number": 12,
+          "label": "GitHub Docs, “About protected branches”",
+          "links": [
+            {
+              "label": "About protected branches",
+              "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches"
+            }
+          ],
+          "accessed": "15 November 2026"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Define Your Product with AI",
+      "path": "4/",
+      "resources": [],
+      "sources": [
+        {
+          "number": 1,
+          "label": "Author-reported experience",
+          "links": [],
+          "note": "No public evidence link is supplied for this source."
+        },
+        {
+          "number": 2,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Turn Your Requirements into a Clear Plan",
+      "path": "5/",
+      "resources": [],
+      "sources": [
+        {
+          "number": 1,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "title": "Use AI to Design a Simple Architecture",
+      "path": "6/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/CODEBASE-MAP.md",
+          "label": "CODEBASE-MAP.md",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/ARCHITECTURE-BASELINE.md",
+          "label": "architecture baseline",
+          "kind": "companion example"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 2,
+          "label": "ContractForge reader edition",
+          "links": [
+            {
+              "label": "ContractForge reader edition",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition"
+            },
+            {
+              "label": "pom.xml",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/backend/pom.xml"
+            },
+            {
+              "label": "package.json",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/frontend/package.json"
+            },
+            {
+              "label": "README.md",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/README.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "title": "Connect the User Journey, Data, and API",
+      "path": "7/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/DATA-FLOW.md",
+          "label": "data flow",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/backend/src/test/java/io/contractforge/backend/ContractReviewHttpIntegrationTests.java",
+          "label": "review test",
+          "kind": "companion example"
+        },
+        {
+          "label": "ContractForge Book Edition",
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition",
+          "kind": "companion example"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "OpenAPI Initiative, OpenAPI Specification",
+          "links": [
+            {
+              "label": "OpenAPI Initiative, OpenAPI Specification",
+              "url": "https://spec.openapis.org/oas/latest.html"
+            }
+          ],
+          "accessed": "1 November 2026"
+        },
+        {
+          "number": 2,
+          "label": "W3C WAI, “Easy Checks: A First Review of Web Accessibility”",
+          "links": [
+            {
+              "label": "Easy Checks: A First Review of Web Accessibility",
+              "url": "https://www.w3.org/WAI/test-evaluate/preliminary/"
+            }
+          ],
+          "accessed": "1 November 2026"
+        },
+        {
+          "number": 3,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 4,
+          "label": "ContractForge reader edition, tag book-example-v1. The source records and tests express lifecycle/approval boundaries; no newly observed execution, extraction-accuracy result or production-readiness claim is made. The invoice trace, prompts and diagram are new teaching material.",
+          "links": [
+            {
+              "label": "book-example-v1",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/tree/book-example-v1"
+            }
+          ]
+        },
+        {
+          "number": 5,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "Set the Security and Privacy Rules for AI",
+      "path": "8/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/INVARIANTS.md",
+          "label": "invariant register",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/DOCUMENT-DELETION.md",
+          "label": "deletion design",
+          "kind": "companion example"
+        },
+        {
+          "label": "ContractForge Book Edition",
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition",
+          "kind": "companion example"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "OWASP, “Authorization Cheat Sheet”",
+          "links": [
+            {
+              "label": "Authorization Cheat Sheet",
+              "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+            }
+          ],
+          "accessed": "3 November 2026"
+        },
+        {
+          "number": 2,
+          "label": "OWASP, “Logging Cheat Sheet”",
+          "links": [
+            {
+              "label": "Logging Cheat Sheet",
+              "url": "https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html"
+            }
+          ],
+          "accessed": "3 November 2026"
+        },
+        {
+          "number": 3,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 4,
+          "label": "European Commission, “Principles of the GDPR”",
+          "links": [
+            {
+              "label": "Principles of the GDPR",
+              "url": "https://commission.europa.eu/law/law-topic/data-protection/information-business-and-organisations/principles-gdpr_en"
+            }
+          ],
+          "accessed": "3 November 2026"
+        },
+        {
+          "number": 5,
+          "label": "European Data Protection Board, “Data controller or data processor”",
+          "links": [
+            {
+              "label": "Data controller or data processor",
+              "url": "https://www.edpb.europa.eu/sme/learn-the-basics/data-controller-or-data-processor_en"
+            }
+          ],
+          "accessed": "3 November 2026"
+        },
+        {
+          "number": 6,
+          "label": "NIST SP 800-218, SSDF version 1.1",
+          "links": [
+            {
+              "label": "NIST SP 800-218, SSDF version 1.1",
+              "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+            }
+          ],
+          "accessed": "3 November 2026"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "Give AI a Clear Task and Let It Work",
+      "path": "9/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/issues/2",
+          "label": "worked invoice issue",
+          "kind": "live example task"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 2,
+          "label": "Agent Skills, “Specification”",
+          "links": [
+            {
+              "label": "Specification",
+              "url": "https://agentskills.io/specification"
+            }
+          ],
+          "accessed": "4 November 2026"
+        },
+        {
+          "number": 3,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "title": "Build Features That Work Beyond the Happy Path",
+      "path": "10/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/issues/2",
+          "label": "worked sample issue",
+          "kind": "live example task"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/INVARIANTS.md",
+          "label": "invariant register",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/backend/src/main/java/io/contractforge/backend/infrastructure/extraction/BedrockContractExtractionAdapter.java",
+          "label": "extraction adapter",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/backend/src/test/java/io/contractforge/backend/infrastructure/extraction/SyntheticBedrockSchemaProbeTests.java",
+          "label": "opt-in test using fictional contracts",
+          "kind": "companion example"
+        },
+        {
+          "label": "ContractForge Book Edition",
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition",
+          "kind": "companion example"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "AWS Builders' Library, “Making retries safe with idempotent APIs”",
+          "links": [
+            {
+              "label": "Making retries safe with idempotent APIs",
+              "url": "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/"
+            }
+          ],
+          "accessed": "4 November 2026"
+        },
+        {
+          "number": 2,
+          "label": "AWS Prescriptive Guidance, “Transactional outbox pattern”",
+          "links": [
+            {
+              "label": "Transactional outbox pattern",
+              "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/transactional-outbox.html"
+            }
+          ],
+          "accessed": "4 November 2026"
+        },
+        {
+          "number": 3,
+          "label": "ContractForge reader edition, tag book-example-v1, path docs/architecture/INVARIANTS.md, I-08. This records the accounting-publication limitation; source inspection is not an alarm or recovery test.",
+          "links": [
+            {
+              "label": "invariant register",
+              "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/INVARIANTS.md"
+            }
+          ]
+        },
+        {
+          "number": 4,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 5,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "title": "Use AI to Test What Matters",
+      "path": "11/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/issues/2",
+          "label": "worked companion issue",
+          "kind": "live example task"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/frontend/src/WorkflowPages.test.tsx",
+          "label": "WorkflowPages tests",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/scripts/local-walkthrough-smoke.py",
+          "label": "local API walkthrough",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/backend/src/test/java/io/contractforge/backend/infrastructure/extraction/SyntheticBedrockSchemaProbeTests.java",
+          "label": "optional provider probe",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/backend/src/test/java/io/contractforge/backend/ContractReviewHttpIntegrationTests.java",
+          "label": "HTTP integration tests",
+          "kind": "companion example"
+        },
+        {
+          "label": "ContractForge Book Edition",
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition",
+          "kind": "companion example"
+        },
+        {
+          "label": "playwright.dev guidance",
+          "url": "https://playwright.dev/docs/best-practices",
+          "kind": "external guidance"
+        },
+        {
+          "label": "testing-library.com guidance",
+          "url": "https://testing-library.com/docs/guiding-principles/",
+          "kind": "external guidance"
+        },
+        {
+          "label": "www.jacoco.org guidance",
+          "url": "https://www.jacoco.org/jacoco/trunk/doc/counters.html",
+          "kind": "external guidance"
+        }
+      ],
+      "sources": []
+    },
+    {
+      "number": 12,
+      "title": "Review the Evidence Before You Merge",
+      "path": "12/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/backend/src/test/java/io/contractforge/backend/ContractReviewHttpIntegrationTests.java",
+          "label": "contract-review HTTP tests",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/.codex/agents/reviewer.toml",
+          "label": "reviewer configuration",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/.github/workflows/ci.yml",
+          "label": "verification workflow",
+          "kind": "companion example"
+        },
+        {
+          "label": "ContractForge Book Edition",
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition",
+          "kind": "companion example"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 2,
+          "label": "GitHub, “About protected branches”",
+          "links": [
+            {
+              "label": "About protected branches",
+              "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches"
+            },
+            {
+              "label": "Events that trigger workflows,",
+              "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request"
+            }
+          ],
+          "accessed": "9 November 2026"
+        },
+        {
+          "number": 3,
+          "label": "Google Engineering Practices, “The Standard of Code Review”",
+          "links": [
+            {
+              "label": "The Standard of Code Review",
+              "url": "https://google.github.io/eng-practices/review/reviewer/standard.html"
+            }
+          ],
+          "accessed": "9 November 2026"
+        },
+        {
+          "number": 4,
+          "label": "OpenAI, “Subagents”",
+          "links": [
+            {
+              "label": "Subagents",
+              "url": "https://developers.openai.com/codex/multi-agent/"
+            }
+          ],
+          "accessed": "15 November 2026"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "title": "Use AI to Set Up Infrastructure and Deployment",
+      "path": "13/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/infrastructure/terraform/README.md",
+          "label": "infrastructure guide",
+          "kind": "companion example"
+        },
+        {
+          "label": "ContractForge Book Edition",
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition",
+          "kind": "companion example"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "HashiCorp, “State Locking”",
+          "links": [
+            {
+              "label": "State Locking",
+              "url": "https://developer.hashicorp.com/terraform/language/state/locking"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 2,
+          "label": "HashiCorp, “Manage sensitive data”",
+          "links": [
+            {
+              "label": "Manage sensitive data",
+              "url": "https://developer.hashicorp.com/terraform/language/manage-sensitive-data"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 3,
+          "label": "GitHub, “Configuring OpenID Connect in Amazon Web Services”",
+          "links": [
+            {
+              "label": "Configuring OpenID Connect in Amazon Web Services",
+              "url": "https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-aws"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 4,
+          "label": "HashiCorp, “terraform plan” and “terraform apply”",
+          "links": [
+            {
+              "label": "terraform plan",
+              "url": "https://developer.hashicorp.com/terraform/cli/commands/plan"
+            },
+            {
+              "label": "terraform apply",
+              "url": "https://developer.hashicorp.com/terraform/cli/commands/apply"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 5,
+          "label": "HashiCorp, “Use refresh-only mode to sync Terraform state”",
+          "links": [
+            {
+              "label": "Use refresh-only mode to sync Terraform state",
+              "url": "https://developer.hashicorp.com/terraform/tutorials/state/refresh"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 6,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 7,
+          "label": "Docker, “docker image pull,” section “Pull an image by digest (immutable identifier)”",
+          "links": [
+            {
+              "label": "Docker, “docker image pull,” section “Pull an image by digest (immutable identifier)”",
+              "url": "https://docs.docker.com/reference/cli/docker/image/pull/#pull-an-image-by-digest-immutable-identifier"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 8,
+          "label": "GitHub, “Deployments and environments”",
+          "links": [
+            {
+              "label": "Deployments and environments",
+              "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 9,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 10,
+          "label": "AWS Builders' Library, “Ensuring rollback safety during deployments”",
+          "links": [
+            {
+              "label": "Ensuring rollback safety during deployments",
+              "url": "https://aws.amazon.com/builders-library/ensuring-rollback-safety-during-deployments/"
+            }
+          ],
+          "accessed": "11 November 2026"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "title": "See What Your Product Does and What It Costs",
+      "path": "14/",
+      "resources": [
+        {
+          "label": "Count draft mismatches (LogQL)",
+          "url": "https://sasan-yavari.github.io/ContractForge-BookEdition/examples/14/count-draft-mismatches.logql",
+          "kind": "teaching example",
+          "example_path": "examples/14/count-draft-mismatches.logql",
+          "note": "Unexecuted teaching query requiring the chapter’s selected tools, authorized test data and matching fields."
+        },
+        {
+          "label": "Find draft mismatches (LogQL)",
+          "url": "https://sasan-yavari.github.io/ContractForge-BookEdition/examples/14/find-draft-mismatches.logql",
+          "kind": "teaching example",
+          "example_path": "examples/14/find-draft-mismatches.logql",
+          "note": "Unexecuted teaching query requiring the chapter’s selected tools, authorized test data and matching fields."
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/backend/src/main/java/io/contractforge/backend/application/processing/ProcessingFailureDiagnostics.java",
+          "label": "failure diagnostics",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/backend/src/main/java/io/contractforge/backend/api/CorrelationIdFilter.java",
+          "label": "HTTP filter",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/DATA-FLOW.md",
+          "label": "accounting flow",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/DATA-MODEL.md",
+          "label": "cost fields",
+          "kind": "companion example"
+        },
+        {
+          "label": "Sample observability setup issue",
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/issues/4",
+          "kind": "live example task"
+        },
+        {
+          "label": "ContractForge Book Edition",
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition",
+          "kind": "companion example"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "OpenTelemetry, “Signals”",
+          "links": [
+            {
+              "label": "Signals",
+              "url": "https://opentelemetry.io/docs/concepts/signals/"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 2,
+          "label": "OWASP, “Logging Cheat Sheet”",
+          "links": [
+            {
+              "label": "Logging Cheat Sheet",
+              "url": "https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 3,
+          "label": "OpenTelemetry, “Context propagation”",
+          "links": [
+            {
+              "label": "Context propagation",
+              "url": "https://opentelemetry.io/docs/concepts/context-propagation/"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 4,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 5,
+          "label": "AWS, “Managing your costs with AWS Budgets”",
+          "links": [
+            {
+              "label": "Managing your costs with AWS Budgets",
+              "url": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 6,
+          "label": "Prometheus, “Metric and label naming,” Labels",
+          "links": [
+            {
+              "label": "Metric and label naming,",
+              "url": "https://prometheus.io/docs/practices/naming/#labels"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 7,
+          "label": "Google, Site Reliability Engineering, “Monitoring Distributed Systems”",
+          "links": [
+            {
+              "label": "Monitoring Distributed Systems",
+              "url": "https://sre.google/sre-book/monitoring-distributed-systems/"
+            }
+          ],
+          "accessed": "11 November 2026"
+        },
+        {
+          "number": 8,
+          "label": "Grafana documentation, overview",
+          "links": [
+            {
+              "label": "Grafana documentation, overview",
+              "url": "https://grafana.com/docs/grafana/latest/introduction/"
+            },
+            {
+              "label": "Cloud/free-plan overview",
+              "url": "https://grafana.com/docs/grafana-cloud/learn-and-build/get-started/learn/"
+            },
+            {
+              "label": "Loki alerting",
+              "url": "https://grafana.com/docs/grafana/latest/datasources/loki/alerting/"
+            },
+            {
+              "label": "contact points",
+              "url": "https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/"
+            }
+          ],
+          "accessed": "12 November 2026"
+        },
+        {
+          "number": 9,
+          "label": "Datadog documentation, Log Explorer",
+          "links": [
+            {
+              "label": "Datadog documentation, Log Explorer",
+              "url": "https://docs.datadoghq.com/logs/explorer/"
+            },
+            {
+              "label": "Metrics Explorer",
+              "url": "https://docs.datadoghq.com/metrics/explorer/"
+            },
+            {
+              "label": "log monitors",
+              "url": "https://docs.datadoghq.com/monitors/types/log/"
+            },
+            {
+              "label": "pricing",
+              "url": "https://www.datadoghq.com/pricing/"
+            }
+          ],
+          "accessed": "12 November 2026"
+        },
+        {
+          "number": 10,
+          "label": "Prometheus, overview",
+          "links": [
+            {
+              "label": "Prometheus, overview",
+              "url": "https://prometheus.io/docs/introduction/overview/"
+            }
+          ],
+          "accessed": "12 November 2026"
+        },
+        {
+          "number": 11,
+          "label": "Grafana Loki, “Log queries”",
+          "links": [
+            {
+              "label": "Log queries",
+              "url": "https://grafana.com/docs/loki/latest/query/log_queries/"
+            },
+            {
+              "label": "Metric queries",
+              "url": "https://grafana.com/docs/loki/latest/query/metric_queries/"
+            }
+          ],
+          "accessed": "12 November 2026"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "title": "Check Readiness and Release Safely",
+      "path": "15/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/.github/workflows/ci.yml",
+          "label": "verification workflow",
+          "kind": "companion example"
+        },
+        {
+          "label": "ContractForge Book Edition",
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition",
+          "kind": "companion example"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "Google, Site Reliability Engineering, “Reliable Product Launches at Scale”",
+          "links": [
+            {
+              "label": "Reliable Product Launches at Scale",
+              "url": "https://sre.google/sre-book/reliable-product-launches/"
+            }
+          ],
+          "accessed": "13 November 2026"
+        },
+        {
+          "number": 2,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 3,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 4,
+          "label": "AWS Builders' Library, “Ensuring rollback safety during deployments”",
+          "links": [
+            {
+              "label": "Ensuring rollback safety during deployments",
+              "url": "https://aws.amazon.com/builders-library/ensuring-rollback-safety-during-deployments/"
+            }
+          ],
+          "accessed": "13 November 2026"
+        },
+        {
+          "number": 5,
+          "label": "Google, The Site Reliability Workbook, “Canarying Releases”",
+          "links": [
+            {
+              "label": "Canarying Releases",
+              "url": "https://sre.google/workbook/canarying-releases/"
+            }
+          ],
+          "accessed": "13 November 2026"
+        },
+        {
+          "number": 6,
+          "label": "GitHub, “Deployments and environments”",
+          "links": [
+            {
+              "label": "Deployments and environments",
+              "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments"
+            }
+          ],
+          "accessed": "13 November 2026"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "title": "Use AI to Investigate Problems and Recover Safely",
+      "path": "16/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/DOCUMENT-DELETION.md",
+          "label": "deletion design",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/backend/src/test/java/io/contractforge/backend/AccountDeletionLifecycleIntegrationTests.java",
+          "label": "lifecycle test source",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/LOCAL-OPERATIONS.md",
+          "label": "local operations guide",
+          "kind": "companion example"
+        },
+        {
+          "label": "ContractForge Book Edition",
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition",
+          "kind": "companion example"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "Google, Site Reliability Engineering, “Managing Incidents”",
+          "links": [
+            {
+              "label": "Managing Incidents",
+              "url": "https://sre.google/sre-book/managing-incidents/"
+            }
+          ],
+          "accessed": "13 November 2026"
+        },
+        {
+          "number": 2,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 3,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 4,
+          "label": "AWS, “Amazon SQS visibility timeout”",
+          "links": [
+            {
+              "label": "Amazon SQS visibility timeout",
+              "url": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html"
+            }
+          ],
+          "accessed": "13 November 2026"
+        },
+        {
+          "number": 5,
+          "label": "Google, Site Reliability Engineering, “Postmortem Culture: Learning from Failure”",
+          "links": [
+            {
+              "label": "Postmortem Culture: Learning from Failure",
+              "url": "https://sre.google/sre-book/postmortem-culture/"
+            }
+          ],
+          "accessed": "13 November 2026"
+        },
+        {
+          "number": 6,
+          "label": "AWS, “Disaster Recovery (DR) objectives,” Reliability Pillar",
+          "links": [
+            {
+              "label": "Disaster Recovery (DR) objectives,",
+              "url": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/disaster-recovery-dr-objectives.html"
+            }
+          ],
+          "accessed": "14 November 2026"
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "title": "Improve Your Product and Know When to Stop",
+      "path": "17/",
+      "resources": [
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/CODEBASE-MAP.md",
+          "label": "codebase map",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/architecture/INVARIANTS.md",
+          "label": "invariant register",
+          "kind": "companion example"
+        },
+        {
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition/blob/book-example-v1/docs/LOCAL-OPERATIONS.md",
+          "label": "local operations guide",
+          "kind": "companion example"
+        },
+        {
+          "label": "ContractForge Book Edition",
+          "url": "https://github.com/Sasan-Yavari/ContractForge-BookEdition",
+          "kind": "companion example"
+        }
+      ],
+      "sources": [
+        {
+          "number": 1,
+          "label": "GitHub, “Dependency review”",
+          "links": [
+            {
+              "label": "Dependency review",
+              "url": "https://docs.github.com/en/code-security/concepts/supply-chain-security/dependency-review"
+            }
+          ],
+          "accessed": "14 November 2026"
+        },
+        {
+          "number": 2,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 3,
+          "label": "AWS, “Deleting object versions from a versioning-enabled bucket”",
+          "links": [
+            {
+              "label": "Deleting object versions from a versioning-enabled bucket",
+              "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html"
+            }
+          ],
+          "accessed": "14 November 2026"
+        },
+        {
+          "number": 4,
+          "label": "Private historical evidence",
+          "links": [],
+          "note": "Not publicly distributed. The chapter states the scope and limitations."
+        },
+        {
+          "number": 5,
+          "label": "AWS KMS pricing",
+          "links": [
+            {
+              "label": "AWS KMS pricing",
+              "url": "https://aws.amazon.com/kms/pricing/"
+            }
+          ],
+          "accessed": "14 November 2026"
+        },
+        {
+          "number": 6,
+          "label": "Microsoft Learn, “Prevent dangling DNS entries and avoid subdomain takeover”",
+          "links": [
+            {
+              "label": "Prevent dangling DNS entries and avoid subdomain takeover",
+              "url": "https://learn.microsoft.com/en-us/azure/security/fundamentals/subdomain-takeover"
+            }
+          ],
+          "accessed": "14 November 2026"
+        },
+        {
+          "number": 7,
+          "label": "Author-reported experience",
+          "links": [],
+          "note": "No public evidence link is supplied for this source."
+        }
+      ]
+    }
+  ]
+}

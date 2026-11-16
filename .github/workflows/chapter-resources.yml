@@ -1,0 +1,41 @@
+name: Chapter resources
+on:
+  pull_request:
+    paths: ['site/**', '.github/workflows/chapter-resources.yml']
+  push:
+    branches: [main]
+    paths: ['site/**', '.github/workflows/chapter-resources.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: '22'
+      - run: node site/build.mjs --check
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: chapter-resources-pages
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/public
+      - uses: actions/deploy-pages@v5
+        id: deployment
