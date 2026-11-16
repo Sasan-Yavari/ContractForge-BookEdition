@@ -56,6 +56,20 @@ def main():
         print("FAIL private-tracker-pattern-self-check")
         return 1
 
+    public_pattern = FORBIDDEN_TEXT["private-tracking-link"]
+    def allowed_public_link(value):
+        matches = list(public_pattern.finditer(value))
+        return bool(matches) and all(("https://" + match.group(0)) in PUBLIC_READER_ISSUES for match in matches)
+    if not all(allowed_public_link(value) for value in PUBLIC_READER_ISSUES):
+        print("FAIL public-reader-link-self-check")
+        return 1
+    if any(allowed_public_link(value) for value in (
+        "https://github.com/Sasan-Yavari/ContractForge-BookEdition/issues/20",
+        "https://github.com/example/private/issues/2",
+    )):
+        print("FAIL public-reader-link-boundary-self-check")
+        return 1
+
     findings = []
     for markdown in ROOT.rglob("*.md"):
         if markdown == ROOT / "docs/EXTRACTION-MANIFEST.md" or any(part in GENERATED_PARTS for part in markdown.parts):
@@ -75,7 +89,7 @@ def main():
             continue
         for category, pattern in FORBIDDEN_TEXT.items():
             if category == "private-tracking-link":
-                if any(match.group(0) not in PUBLIC_READER_ISSUES for match in pattern.finditer(text)):
+                if any(("https://" + match.group(0)) not in PUBLIC_READER_ISSUES for match in pattern.finditer(text)):
                     findings.append((relative, category))
                 continue
             if category == "private-tracker-number":
