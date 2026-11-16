@@ -1,0 +1,4 @@
+{service="invoice", environment="test"}
+| json | __error__=""
+| event_type="draft_journey_checked"
+| outcome="mismatch"
