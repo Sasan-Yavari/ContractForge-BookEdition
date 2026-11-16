@@ -25,3 +25,7 @@ The local path uses PostgreSQL, LocalStack, explicit local authentication, a det
 - samples/: newly authored fictional contract sample.
 
 See [distribution notice](DISTRIBUTION-NOTICE.md), [third-party notices](THIRD-PARTY-NOTICES.md), and [asset provenance](ASSET-PROVENANCE.md). The private extraction manifest is staging-only and is not part of this edition.
+
+## Book chapter resources
+
+Chapter resource pages, numbered references and QR assets are maintained under [site/](site/README.md). Its documentation covers edition identity, the static build and GitHub Pages setup.
